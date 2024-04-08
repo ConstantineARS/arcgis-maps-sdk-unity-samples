@@ -11,6 +11,11 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using System.Collections;
+using System.Net;
+using System.Collections.Generic;
+
 
 public class ArcGISRaycast : MonoBehaviour
 {
@@ -52,9 +57,14 @@ public class ArcGISRaycast : MonoBehaviour
 		    {
 			    var arcGISRaycastHit = arcGISMapComponent.GetArcGISRaycastHit(hit);
 			    var layer = arcGISRaycastHit.layer;
-			    var featureId = arcGISRaycastHit.featureId;
 
-			    if (layer != null && featureId != -1)
+				var featureId = arcGISRaycastHit.featureId;
+				StartCoroutine(GetBuildingName(featureId));
+				
+				//var name = arcGISRaycastHit.NAME;
+
+				/*
+				if (layer != null && featureId != -1)
 			    {
 				    featureText.text = featureId.ToString();
 
@@ -65,8 +75,45 @@ public class ArcGISRaycast : MonoBehaviour
 				    var location = canvas.GetComponent<ArcGISLocationComponent>();
 				    location.Position = offsetPosition;
 				    location.Rotation = rotation;
-			    }
+			    }*/
 		    }
 	    }
     }
+	IEnumerable<KeyValuePair<string, string>> payload = new List<KeyValuePair<string, string>>()
+		{
+			new KeyValuePair<string, string>("token", arcGISMapComponent.APIKey),
+			new KeyValuePair<string, string>("f", "json"),
+		};
+	IEnumerator GetBuildingName(long featureId)
+	{
+		string url = $"https://basemaps3d.arcgis.com/arcgis/rest/services/OpenStreetMap3D_Buildings_v1/SceneServer/0/query?where=OBJECTID={featureId}&outFields=NAME&f=json";
+		using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+		{
+			// Request and wait for the desired page
+			yield return webRequest.SendWebRequest();
+
+			if (webRequest.isNetworkError || webRequest.isHttpError)
+			{
+				Debug.Log(": Error: " + webRequest.error);
+			}
+			else
+			{
+				ProcessBuildingNameResponse(webRequest.downloadHandler.text);
+				Debug.Log("Raw response: " + webRequest.downloadHandler.text);
+			}
+		}
+	}
+
+	// Process the JSON response to extract the building's name
+	void ProcessBuildingNameResponse(string jsonResponse)
+	{
+		// Parse the JSON response to find the building name
+		// This is a simplified example; you'll need to use a JSON parsing method appropriate for your setup
+		// Unity's JsonUtility or a third-party library like Newtonsoft.Json can be used for more complex JSON parsing
+		Debug.Log("Building name response: " + jsonResponse);
+		
+
+		// After parsing, you might extract the NAME attribute and update your UI or logic accordingly
+		// Example: featureText.text = extractedName;
+	}
 }

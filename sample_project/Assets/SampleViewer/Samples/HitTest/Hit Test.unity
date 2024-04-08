@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 4
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -588,8 +588,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 300286563}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.00000008626026, y: 0.00012128103, z: 0.0001407545, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.21801835}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -599,7 +599,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -2370, y: 255.5}
+  m_AnchoredPosition: {x: -1798.3485, y: 255.24684}
   m_SizeDelta: {x: 873, y: 511}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &300286565
@@ -698,15 +698,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IsInitialized: 1
   m_LocalPosition:
-    x: -8240012.318702246
-    y: 1255.5
-    z: 4975536.361069248
+    x: 1332276.2163655388
+    y: 4142250.164054421
+    z: -4652723.648300656
   m_LocalRotation:
     value:
-      x: 0
-      y: 0
-      z: 0
-      w: 1
+      x: -0.41263288
+      y: -0.12634869
+      z: -0.057913594
+      w: 0.9002312
   m_LocalScale:
     x: 1
     y: 1
@@ -1521,8 +1521,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.1609267, y: 0.527428, z: -0.1025216, w: 0.82789594}
-  m_LocalPosition: {x: -6113.778, y: 2000, z: -8630.313}
+  m_LocalRotation: {x: 0.1602789, y: 0.5276927, z: -0.10254136, w: 0.8278505}
+  m_LocalPosition: {x: -4644.464, y: 1994.9633, z: -6526.6113}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1687,15 +1687,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IsInitialized: 1
   m_LocalPosition:
-    x: -8243756.096456101
-    y: 3000
-    z: 4966906.047235179
+    x: 1331077.970749735
+    y: 4138441.2858422627
+    z: -4658870.447933888
   m_LocalRotation:
     value:
-      x: 0.16092667
-      y: 0.5274279
-      z: -0.1025216
-      w: 0.827896
+      x: -0.15373103
+      y: 0.31869116
+      z: -0.3377756
+      w: 0.87218714
   m_LocalScale:
     x: 1.0000001
     y: 1.0000001
@@ -2892,6 +2892,17 @@ MonoBehaviour:
     IsEnabled: 1
     Authentication:
       ConfigurationIndex: -1
+  mapElevation:
+    ElevationSources:
+    - Name: Terrain 3D
+      Type: 0
+      Source: https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer
+      IsEnabled: 1
+      Authentication:
+        ConfigurationIndex: -1
+    MeshModifications:
+      IsEnabled: 1
+      MeshModifications: []
   enableExtent: 1
   extent:
     GeographicCenter:
@@ -2912,6 +2923,20 @@ MonoBehaviour:
     IsVisible: 1
     Authentication:
       ConfigurationIndex: -1
+    BuildingSceneLayerFilter:
+      ActiveBuildingAttributeFilterIndex: -1
+      BuildingAttributeFilters: []
+      IsBuildingAttributeFilterEnabled: 0
+      IsBuildingDisciplinesCategoriesFilterEnabled: 0
+      EnabledCategories: 
+      EnabledDisciplines: 
+    MeshModifications:
+      IsEnabled: 1
+      MeshModifications: []
+    SpatialFeatureFilter:
+      IsEnabled: 0
+      Polygons: []
+      Type: 0
   - Name: New York Industrial
     Type: 0
     Source: https://tiles.arcgis.com/tiles/nGt4QxSblgDfeJn9/arcgis/rest/services/New_York_Industrial/MapServer
@@ -2919,19 +2944,68 @@ MonoBehaviour:
     IsVisible: 1
     Authentication:
       ConfigurationIndex: -1
+    BuildingSceneLayerFilter:
+      ActiveBuildingAttributeFilterIndex: -1
+      BuildingAttributeFilters: []
+      IsBuildingAttributeFilterEnabled: 0
+      IsBuildingDisciplinesCategoriesFilterEnabled: 0
+      EnabledCategories: 
+      EnabledDisciplines: 
+    MeshModifications:
+      IsEnabled: 1
+      MeshModifications: []
+    SpatialFeatureFilter:
+      IsEnabled: 0
+      Polygons: []
+      Type: 0
   - Name: New York Buildings
     Type: 1
     Source: https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_NewYork_17/SceneServer
     Opacity: 1
+    IsVisible: 0
+    Authentication:
+      ConfigurationIndex: -1
+    BuildingSceneLayerFilter:
+      ActiveBuildingAttributeFilterIndex: -1
+      BuildingAttributeFilters: []
+      IsBuildingAttributeFilterEnabled: 0
+      IsBuildingDisciplinesCategoriesFilterEnabled: 0
+      EnabledCategories: 
+      EnabledDisciplines: 
+    MeshModifications:
+      IsEnabled: 1
+      MeshModifications: []
+    SpatialFeatureFilter:
+      IsEnabled: 0
+      Polygons: []
+      Type: 0
+  - Name: osm
+    Type: 1
+    Source: https://basemaps3d.arcgis.com/arcgis/rest/services/OpenStreetMap3D_Buildings_v1/SceneServer
+    Opacity: 1
     IsVisible: 1
     Authentication:
       ConfigurationIndex: -1
+    BuildingSceneLayerFilter:
+      ActiveBuildingAttributeFilterIndex: -1
+      BuildingAttributeFilters: []
+      IsBuildingAttributeFilterEnabled: 0
+      IsBuildingDisciplinesCategoriesFilterEnabled: 0
+      EnabledCategories: 
+      EnabledDisciplines: 
+    MeshModifications:
+      IsEnabled: 1
+      MeshModifications: []
+    SpatialFeatureFilter:
+      IsEnabled: 0
+      Polygons: []
+      Type: 0
   originPosition:
     x: -74
     y: 40.75
     z: 1000
     SRWkid: 4326
-  mapType: 1
+  mapType: 0
   editorModeEnabled: 1
   dataFetchWithSceneView: 1
   rebaseWithSceneView: 0
@@ -2940,7 +3014,7 @@ MonoBehaviour:
   RootChanged:
     m_PersistentCalls:
       m_Calls: []
-  version: 1
+  version: 2
 --- !u!114 &1808036066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2954,15 +3028,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_LocalPosition:
-    x: -8237642.318702245
-    y: 1000
-    z: 4975536.361069248
+    x: 1333951.6402752341
+    y: 4142083.3839376657
+    z: -4652042.217681124
   m_LocalRotation:
     value:
-      x: 0
-      y: 0
-      z: 0
-      w: 1
+      x: -0.41262218
+      y: -0.12651594
+      z: -0.057990264
+      w: 0.90020764
 --- !u!114 &1808036068
 MonoBehaviour:
   m_ObjectHideFlags: 0
