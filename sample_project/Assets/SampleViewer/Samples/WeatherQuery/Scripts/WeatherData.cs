@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.VFX;
+using static UnityEngine.Rendering.HighDefinition.CloudLayer;
 
 [RequireComponent(typeof(ArcGISLocationComponent))]
 public class WeatherData : MonoBehaviour
@@ -17,6 +18,8 @@ public class WeatherData : MonoBehaviour
     [SerializeField] private ArcGISCameraComponent ArcGISCamera;
     [SerializeField] private ArcGISMapComponent ArcGISMap;
     private ArcGISLocationComponent cameraLocationComponent;
+    [SerializeField] private MeshRenderer CloudLayer;
+    [SerializeField] private Material CloudMat;
     [SerializeField] private Light directionalLight;
     [SerializeField] private Animation lightningAnim;
     private AudioSource lightningAudio;
@@ -41,11 +44,19 @@ public class WeatherData : MonoBehaviour
         cameraLocationComponent = ArcGISCamera.gameObject.GetComponent<ArcGISLocationComponent>();
         locationComponent = GetComponent<ArcGISLocationComponent>();
         directionalLight = FindObjectOfType<Light>();
-        volume = FindObjectOfType<Volume>();
-        volumeProfile = volume.profile;
         weatherQuery = FindObjectOfType<WeatherQuery>();
         lightningAnim = directionalLight.GetComponent<Animation>();
         lightningAudio = lightning.GetComponent<AudioSource>();
+        if (GraphicsSettings.renderPipelineAsset.ToString().Contains("Universal"))
+        {
+            CloudLayer = GameObject.Find("Cloud Layer").GetComponent<MeshRenderer>();
+            CloudMat = CloudLayer.material;
+        }
+        else
+        {
+            volume = FindObjectOfType<Volume>();
+            volumeProfile = volume.profile;
+        }
     }
 
     public float ConvertTemp(float Temp, bool IsCelcius)
@@ -93,27 +104,68 @@ public class WeatherData : MonoBehaviour
 
     public void SetSky()
     {
-        if (volumeProfile.TryGet(out vClouds))
+        if (GraphicsSettings.renderPipelineAsset.ToString().Contains("Universal"))
         {
-            if (skyCondition.ToLower().Contains("overcast"))
+
+
+            string pipelineName = GraphicsSettings.renderPipelineAsset.GetType().ToString();
+            if (GraphicsSettings.renderPipelineAsset.ToString().Contains("Universal"))
             {
-                vClouds.cloudPreset = VolumetricClouds.CloudPresets.Overcast;
-                directionalLight.color = new Color(0.1803922f, 0.1803922f, 0.1803922f, 1.0f);
+                if (CloudMat != null)
+                {
+                    if (skyCondition.ToLower().Contains("overcast"))
+                    {
+                        CloudMat.SetFloat("_CloudSize", 40f);
+                        CloudMat.SetFloat("_CloudDensity", 1f);
+                        directionalLight.color = new Color(0.1803922f, 0.1803922f, 0.1803922f, 1.0f);
+                    }
+                    else if (skyCondition.ToLower().Contains("cloud"))
+                    {
+                        CloudMat.SetFloat("_CloudSize", 120f);
+                        CloudMat.SetFloat("_CloudDensity", 5.4f);
+                        directionalLight.color = new Color(1, 1, 1, 1);
+                    }
+                    else if (currentWeather.ToLower().Contains("thunder"))
+                    {
+                        CloudMat.SetFloat("_CloudSize", 19.87f);
+                        CloudMat.SetFloat("_CloudDensity", 0.5f);
+                        directionalLight.color = new Color(1, 1, 1, 1);
+                    }
+                    else
+                    {
+                        CloudMat.SetFloat("_CloudSize", 120f);
+                        CloudMat.SetFloat("_CloudDensity", 4.3f);
+                        directionalLight.color = new Color(1, 1, 1, 1);
+                    }
+                }
             }
-            else if (skyCondition.ToLower().Contains("cloud"))
+        }
+        else
+        {
+
+
+            if (volumeProfile.TryGet(out vClouds))
             {
-                vClouds.cloudPreset = VolumetricClouds.CloudPresets.Cloudy;
-                directionalLight.color = new Color(1, 1, 1, 1);
-            }
-            else if (currentWeather.ToLower().Contains("thunder"))
-            { 
-                vClouds.cloudPreset = VolumetricClouds.CloudPresets.Stormy;
-                directionalLight.color = new Color(1, 1, 1, 1);
-            }
-            else
-            {
-                vClouds.cloudPreset = VolumetricClouds.CloudPresets.Sparse;
-                directionalLight.color = new Color(1, 1, 1, 1);
+                if (skyCondition.ToLower().Contains("overcast"))
+                {
+                    vClouds.cloudPreset = VolumetricClouds.CloudPresets.Overcast;
+                    directionalLight.color = new Color(0.1803922f, 0.1803922f, 0.1803922f, 1.0f);
+                }
+                else if (skyCondition.ToLower().Contains("cloud"))
+                {
+                    vClouds.cloudPreset = VolumetricClouds.CloudPresets.Cloudy;
+                    directionalLight.color = new Color(1, 1, 1, 1);
+                }
+                else if (currentWeather.ToLower().Contains("thunder"))
+                {
+                    vClouds.cloudPreset = VolumetricClouds.CloudPresets.Stormy;
+                    directionalLight.color = new Color(1, 1, 1, 1);
+                }
+                else
+                {
+                    vClouds.cloudPreset = VolumetricClouds.CloudPresets.Sparse;
+                    directionalLight.color = new Color(1, 1, 1, 1);
+                }
             }
         }
     }
