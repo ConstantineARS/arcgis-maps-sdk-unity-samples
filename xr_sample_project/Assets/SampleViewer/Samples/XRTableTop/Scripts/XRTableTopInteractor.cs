@@ -77,12 +77,10 @@ public class XRTableTopInteractor : MonoBehaviour
 
     private void Start()
     {
-#if UNITY_EDITOR
-        camera.clearFlags = CameraClearFlags.Skybox;
-#elif UNITY_STANDALONE_WIN
-        camera.clearFlags = CameraClearFlags.Skybox;
-#else
+#if UNITY_ANDROID
         camera.clearFlags = CameraClearFlags.Color;
+#else
+        camera.clearFlags = CameraClearFlags.Skybox;
 #endif
     }
 
